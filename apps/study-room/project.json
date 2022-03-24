@@ -1,0 +1,73 @@
+{
+  "root": "apps/study-room",
+  "sourceRoot": "apps/study-room/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/study-room",
+        "index": "apps/study-room/src/index.html",
+        "baseHref": "/",
+        "main": "apps/study-room/src/main.tsx",
+        "polyfills": "apps/study-room/src/polyfills.ts",
+        "tsConfig": "apps/study-room/tsconfig.app.json",
+        "assets": [
+          "apps/study-room/src/favicon.ico",
+          "apps/study-room/src/assets"
+        ],
+        "styles": ["apps/study-room/src/styles.scss"],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/study-room/src/environments/environment.ts",
+              "with": "apps/study-room/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "study-room:build",
+        "hmr": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "study-room:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/study-room/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/study-room"],
+      "options": {
+        "jestConfig": "apps/study-room/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "projects": {
+    "study-room": "apps/study-room",
+    "study-room-e2e": "apps/study-room-e2e"
+  }
+}
