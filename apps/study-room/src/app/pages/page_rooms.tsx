@@ -1,7 +1,7 @@
 import { Box, Text, Center, Stack, VStack, Heading, Flex } from '@chakra-ui/react';
 import { RoomPlaygrond } from '../components/room/room_playground';
 
-export function RoomPage() {
+export function LobbyPage() {
   return (
     <Box h={'full'} w={'full'}>
       <Center h={'full'} w={'full'}>

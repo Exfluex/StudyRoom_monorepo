@@ -4,7 +4,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import styles from './app.module.scss';
 import NxWelcome from './nx-welcome';
 import { LoginPage } from './pages/page_login';
-import { RoomPage } from './pages/page_rooms';
+import { LobbyPage } from './pages/page_rooms';
+import { StudyRoomPage } from './pages/page_studyroom';
 
 export function App() {
   return (
@@ -14,7 +15,8 @@ export function App() {
           <Box pos={'fixed'} w={'100%'} h={'100%'} bg={'#f8edeb'}>
             <Routes>
               <Route path="/" element={<LoginPage />} />
-              <Route path="/rooms" element={<RoomPage />} />
+              <Route path="/rooms" element={<LobbyPage />} />
+              <Route path="/room/:roomId" element={<StudyRoomPage />} />
             </Routes>
           </Box>
         </ChakraProvider>
