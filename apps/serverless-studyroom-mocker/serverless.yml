@@ -1,0 +1,64 @@
+service: studyroom-serverless-backend
+
+plugins:
+  - serverless-bundle
+  - serverless-offline
+  - serverless-aliyun-function-compute
+
+
+frameworkVersion: '3'
+useDotenv: true
+custom:
+  stage: ${opt:stage, 'dev'}
+  serverless-offline:
+    noPrependStageInUrl: true
+  bundle:
+    sourcemaps: false
+    packager: 'npm'
+    linting: false
+    tsConfig: 'tsconfig.app.json'
+    copyFiles:
+      - from: "schema.prisma"
+        to: "./src/handlers"
+      - from: "../../node_modules/.prisma/client/libquery_engine-debian-openssl-1.1.x.so.node"
+        to: "./src/handlers"
+package:
+  patterns:
+    - "!package-lock.json"
+    - "!.gitignore"
+    - "!.git/**"
+  artifact: studyroom-serverless-backend.zip
+params:
+  prod:
+    production: true
+  default:
+    production: false
+
+provider:
+  name: aliyun
+  region: cn-hangzhou
+  runtime: nodejs12
+  credentials: ./data/credentials
+
+functions:
+  graphql:
+    handler: src/handlers/graphql.handler
+    events:
+      - http:
+          path: /graphql
+          integration: lambda
+          method: post
+  echo:
+    handler: src/handlers/echo.handler
+    events:
+      - http:
+          path: /echo
+          integration: lambda
+          method: get
+  auth:
+    handler: src/handlers/authorizer.handler
+    events:
+      - http:
+          path: /auth
+          integration: lambda
+          method: post

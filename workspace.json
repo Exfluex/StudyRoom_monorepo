@@ -1,6 +1,8 @@
 {
   "version": 2,
   "projects": {
+    "faker": "apps/faker",
+    "serverless-studyroom-mocker": "apps/serverless-studyroom-mocker",
     "study-room": "apps/study-room",
     "study-room-e2e": "apps/study-room-e2e"
   }

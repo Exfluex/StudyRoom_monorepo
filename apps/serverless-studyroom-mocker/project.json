@@ -1,0 +1,95 @@
+{
+  "root": "apps/serverless-studyroom-mocker",
+  "sourceRoot": "apps/serverless-studyroom-mocker/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/serverless-studyroom-mocker",
+        "main": "apps/serverless-studyroom-mocker/src/main.ts",
+        "tsConfig": "apps/serverless-studyroom-mocker/tsconfig.app.json",
+        "assets": ["apps/serverless-studyroom-mocker/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/serverless-studyroom-mocker/src/environments/environment.ts",
+              "with": "apps/serverless-studyroom-mocker/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "remove": {
+      "executor": "@ns3/nx-serverless:sls",
+      "options": {
+        "command": "remove"
+      }
+    },
+    "sls": {
+      "executor": "@ns3/nx-serverless:sls",
+      "options": {}
+    },
+    "package": {
+      "executor": "@ns3/nx-serverless:sls",
+      "outputs": [
+        "apps\\serverless-studyroom-mocker\\.serverless",
+        "dist/apps/serverless-studyroom-mocker"
+      ],
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "dependencies"
+        }
+      ],
+      "options": {
+        "command": "package --verbose --debug=*"
+      }
+    },
+    "deploy": {
+      "executor": "@ns3/nx-serverless:sls",
+      "outputs": [
+        "apps\\serverless-studyroom-mocker\\.serverless",
+        "dist/apps/serverless-studyroom-mocker"
+      ],
+      "dependsOn": [
+        {
+          "target": "package",
+          "projects": "self"
+        }
+      ],
+      "options": {
+        "command": "deploy --verbose --debug=*",
+        "package": ".serverless"
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "serverless-studyroom-mocker:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/serverless-studyroom-mocker/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/serverless-studyroom-mocker"],
+      "options": {
+        "jestConfig": "apps/serverless-studyroom-mocker/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
