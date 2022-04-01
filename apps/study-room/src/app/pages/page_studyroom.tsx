@@ -9,6 +9,7 @@ export function StudyRoomPage() {
 
   return (
     <Flex h={'full'} flexDir={'column'} bg={'#94D2BD'}>
+
       <VStack>
         <Box mt={5}>
           <BlackBoard />

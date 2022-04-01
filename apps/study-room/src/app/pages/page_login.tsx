@@ -19,7 +19,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { Login_API, Register_API } from '../../apis/api_entry';
+import { Login_API, Register_API } from '../apis/api_entry';
 const validations: {
   [property: string]: {
     errors: { [type: string]: string; default: string };
@@ -105,9 +105,9 @@ export function LoginPage() {
   const handleLogin = () => {
     const res = formValidationFn();
     if(res.valid){
-      Login_API(res).then(data=>{
-        console.log(data);
-        navigate("/rooms")
+      Login_API({email:form.email,password:form.password}).then(data=>{
+        // console.log(data);
+        navigate("/lobby")
       }).catch(data=>{
         console.log(data);
       });

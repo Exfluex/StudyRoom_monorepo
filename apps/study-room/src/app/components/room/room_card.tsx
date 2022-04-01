@@ -8,7 +8,7 @@ import {
   useColorModeValue,
   Button,
 } from '@chakra-ui/react';
-import { MotionBox } from 'apps/study-room/src/utils/motion';
+import { MotionBox } from 'apps/study-room/src/app/utils/motion';
 import { useNavigate } from 'react-router-dom';
 import { RoomMultiFunctionPanel } from './room_multifunc_panel';
 import { RoomSeatsBrief } from './room_seat_brief';

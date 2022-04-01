@@ -1,5 +1,5 @@
 import { Box, Center, Flex } from '@chakra-ui/react';
-import { MotionBox, MotionCenter } from 'apps/study-room/src/utils/motion';
+import { MotionBox, MotionCenter } from 'apps/study-room/src/app/utils/motion';
 import { ReactComponentElement, ReactElement, ReactNode, useState } from 'react';
 import { BsFillCalendarDateFill } from 'react-icons/bs';
 import {FiMoreHorizontal} from 'react-icons/fi'

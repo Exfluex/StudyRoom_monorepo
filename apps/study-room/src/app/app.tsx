@@ -2,10 +2,12 @@
 import { Box, ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import styles from './app.module.scss';
+import { ManipulateLayout } from './components/layout/manipulate_layer';
 import NxWelcome from './nx-welcome';
 import { LoginPage } from './pages/page_login';
 import { LobbyPage } from './pages/page_rooms';
 import { StudyRoomPage } from './pages/page_studyroom';
+import { ApplicationRoutes } from './routes/app_routes';
 
 export function App() {
   return (
@@ -13,11 +15,7 @@ export function App() {
       <BrowserRouter>
         <ChakraProvider>
           <Box pos={'fixed'} w={'100%'} h={'100%'} bg={'#f8edeb'}>
-            <Routes>
-              <Route path="/" element={<LoginPage />} />
-              <Route path="/rooms" element={<LobbyPage />} />
-              <Route path="/room/:roomId" element={<StudyRoomPage />} />
-            </Routes>
+            <ApplicationRoutes/>
           </Box>
         </ChakraProvider>
       </BrowserRouter>

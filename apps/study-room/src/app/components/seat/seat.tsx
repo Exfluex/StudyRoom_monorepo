@@ -1,7 +1,7 @@
 import { Box, Button, Center, Flex, HStack, Image } from '@chakra-ui/react';
-import { MotionBox, MotionCenter } from 'apps/study-room/src/utils/motion';
+import { MotionBox, MotionCenter } from 'apps/study-room/src/app/utils/motion';
 import { useState } from 'react';
-import Avatar, { AvatarStyle, Piece } from 'avataaars';
+import Avatar from 'avataaars';
 import React from 'react';
 import { TableSVG } from '../table_svg';
 export function Seat({ seatId }: { seatId: number }) {
@@ -20,7 +20,7 @@ export function Seat({ seatId }: { seatId: number }) {
         setFree((c) => !c);
       }}
     >
-      <DesktopLayer free={ifree}/>
+      <DesktopLayer free={false}/>
       <MotionCenter
         pos={'absolute'}
         w={'full'}

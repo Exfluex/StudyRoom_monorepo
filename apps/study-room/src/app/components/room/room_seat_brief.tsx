@@ -1,5 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { MotionBox } from 'apps/study-room/src/utils/motion';
+import { MotionBox } from 'apps/study-room/src/app/utils/motion';
 import { useState } from 'react';
 
 interface MiniSetProps {

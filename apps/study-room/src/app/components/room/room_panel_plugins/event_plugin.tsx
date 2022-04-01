@@ -7,7 +7,7 @@ import {
   HStack,
   VStack,
 } from '@chakra-ui/react';
-import { MotionBox } from 'apps/study-room/src/utils/motion';
+import { MotionBox } from 'apps/study-room/src/app/utils/motion';
 
 export function EventPlugin() {
   return (
