@@ -1,0 +1,48 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+  {
+    "name": "Launch Faker",
+    "request": "launch",
+    "runtimeArgs": [
+      "run",
+      "faker"
+    ],
+    "runtimeExecutable": "npm",
+    "skipFiles": [
+      "<node_internals>/**"
+    ],
+    "type": "node"
+  },
+
+    {
+      "name": "Serverless Mocker",
+      "request": "launch",
+      "runtimeArgs": [
+        "run",
+        "serverless_mocker"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+    },
+    {
+      "name": "Serverless Offline",
+      "request": "launch",
+      "runtimeArgs": [
+        "run",
+        "serverless"
+      ],
+      "sourceMaps": true,
+      "preLaunchTask": "serverless:package",
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "port":9222,
+      "type": "node"
+    }
+  ]
+}
