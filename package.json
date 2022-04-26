@@ -13,6 +13,9 @@
     "faker": "npx nx run faker:serve"
   },
   "private": true,
+  "prisma":{
+    "schema":"apps/serverless-studyroom-mocker/schema.prisma"
+  },
   "dependencies": {
     "@apollo/client": "^3.5.10",
     "@chakra-ui/react": "^1.8.6",
@@ -38,7 +41,8 @@
     "react-icons": "^4.3.1",
     "react-router-dom": "^6.2.2",
     "regenerator-runtime": "0.13.7",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^6.1.1",
@@ -61,6 +65,7 @@
     "@types/node": "16.11.7",
     "@types/react": "17.0.30",
     "@types/react-dom": "17.0.9",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "~5.10.0",
     "@typescript-eslint/parser": "~5.10.0",
     "babel-jest": "27.2.3",
