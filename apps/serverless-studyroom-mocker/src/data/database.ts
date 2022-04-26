@@ -8,4 +8,16 @@ export const redis = new Redis({
   password:process.env.DB_REDIS_PASSWORD,
   db:0
 });
-export const prisma = new PrismaClient();
+export const prisma = new PrismaClient({
+  // log:[
+  //   {
+  //     emit:'event',
+  //     level:'query'
+  //   }
+  // ]
+});
+//sql command debug
+// //@ts-ignore
+// prisma.$on('query',async (e)=>{
+//   console.log(`${e.query} ${e.params}`)
+// })
