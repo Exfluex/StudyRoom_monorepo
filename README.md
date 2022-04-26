@@ -1,94 +1,62 @@
 
-
 # StudyroomMonorepo
 
-This project was generated using [Nx](https://nx.dev).
+这个项目包括自习室前端及无服务器架构的后端代码。
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+项目为monorepo,使用Nx作为脚手架，使用Nx社区插件@ns3/nx-serverless作为serverless项目运行的插件，但我对其生成项目进行了一些修改，原因如下：
 
-🔎 **Smart, Fast and Extensible Build System**
+项目后端部署在Aliyun云函数上，而由于serverless offline我电脑上运行有奇怪的问题，同时没有找到更改其API网关事件源的方法，因此我只有自己模拟Aliyun API网关发送事件的流程，因此我存放后端云函数代码的项目被命名为serverless-studyroom-mocker（后文简称mocker），这是一个模拟云函数运行的环境的项目。
 
-## Adding capabilities to your workspace
+由于mocker项目实际是一个Express项目，因此我将该项目的project.json文件进行了修改，把serverless项目的一部分Nx Command逻辑整合到了一起，因此可以在mocker项目中使用serve运行模拟环境，也可以用deploy指令使用sls进行云函数项目部署。
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+同时由于后端使用Prisma作为ORM，而Prisma在阿里云云函数容器环境（debian系统为基础的容器）下的Engine有30MB，而阿里云提供的serverless框架插件对于上传超时设置的比较短，因此进行部署时在上传未完成前就超时了，因此需要对插件中超时的配置进行修改，详细修改方法在我的博客上。
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+## 目标
 
-Below are our core plugins:
+创建一个自习室平台，用户可以自建自习室，在自习室内实时讨论问题。同时通过插件系统安装不同的插件（例如待完成事项ToDo插件）以满足不同的学习目的。
 
-- [React](https://reactjs.org)
-  - `npm install --save-dev @nrwl/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nrwl/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nrwl/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
+## 架构
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+项目前端使用React框架，后端使用云函数作为业务代码载体，前后端之间主要使用GraphQL进行通讯，鉴权使用阿里云API网关提供的JWT验证。
 
-## Generate an application
+### 前端
 
-Run `nx g @nrwl/react:app my-app` to generate an application.
+项目前端使用了以下框架及库：
 
-> You can use any of the plugins above to generate applications as well.
+- React
+- Chakra-UI UI库（类似TailwindCSS，但Chakara-UI我认为更加友好，就是Code IntelliSense比较慢）
+- Framer Motion 动画
+- avataar 头像库（该库使用的React版本较低后面需要重构一下源码，不然一直报错）
+- React Router 路由
+- Apollo Client  GraphQL React客户端
+- React Icon 图标
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+### 后端
 
-## Generate a library
+项目后端需要部署到阿里云云函数服务上，使用serverless作为部署工具。
+后端使用了一下框架及库：
 
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
+- Apollo Server Lambda & Apollo Server Cache Redis （GraphQL服务端）
+- Prisma （type-safe ORM框架）
+- dotEnv  加载.env文件
+- ioredis Redis 客户端
 
-> You can also use any of the plugins above to generate libraries as well.
+项目后端代码仅为apps/serverless-studyroom-mocker项目src/handlers文件夹下的各个handler，具体的部署配置参考serverless-studyroom-mocker项目下serverless.yml文件中对于函数部署的配置。
 
-Libraries are shareable across libraries and applications. They can be imported from `@studyroom-monorepo/mylib`.
+#### Mysql数据库
 
-## Development server
+数据库中表的创建及修改由Prisma Cli掌握控制权，如果需要对表改动，则直接在serverless-studyroom-mocker项目下的schema.prisma文件中进行改动，在配置好.env后执行以下命令：
 
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+```Typescript
+  npx prisma db push
+```
 
-## Code scaffolding
+而后Prisma就会自动将schema转换为对应的数据库指令，对目标数据库进行修改。
 
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
+#### Redis
 
-## Build
+Redis用于对在线用户及活跃房间等热数据进行缓存，同时作为Apollo的数据缓存。
 
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## faker项目
 
-## Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `nx e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-
-
-## ☁ Nx Cloud
-
-### Distributed Computation Caching & Distributed Task Execution
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+faker项目用于生成简单的随机数据并填充到数据库中，没有任何的优化和设置。
