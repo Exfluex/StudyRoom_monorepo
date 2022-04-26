@@ -2,7 +2,7 @@ import { PrismaClient,room } from '@prisma/client'
 const client = new PrismaClient();
 import { faker } from '@faker-js/faker'
 import * as crypto from 'crypto'
-
+import {parse} from 'uuid'
 const password = crypto.createHash('md5').update("123456").digest('hex');
 
 
@@ -13,7 +13,7 @@ export const userGenerator = async function () {
       let user = {
         user_email: faker.internet.email(),
         user_name: faker.name.findName(),
-        user_uuid: faker.datatype.uuid(),
+        user_uuid: Buffer.from(parse(faker.datatype.uuid())),
         user_password: password,
       };
       const auser = await client.user.create({
@@ -38,10 +38,10 @@ export const roomGenerator = async function(){
         room_uuid:faker.datatype.uuid(),
         room_password:"",
       }
-      const aroom = await client.room.create({
-        data:room
-      })
-      console.log(aroom);
+      // const aroom = await client.room.create({
+      //   data:room
+      // })
+      // console.log(aroom);
     }catch(e){
 
     }
