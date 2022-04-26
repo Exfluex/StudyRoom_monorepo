@@ -37,3 +37,11 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Serverless
+.serverless
+.webpack
+
+
+# docs for internal
+/docs
