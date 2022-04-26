@@ -2,6 +2,7 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import { ExpressContext } from "apollo-server-express";
 import { Request } from "express";
 import Redis from "ioredis";
+import { parse } from "uuid";
 import { prisma, redis } from "./database";
 
 export interface AliyunFCContext {
@@ -59,7 +60,7 @@ export interface Context {
   prisma: PrismaClient<Prisma.PrismaClientOptions, never, Prisma.RejectOnNotFound | Prisma.RejectPerOperation>;
   redis: Redis;
   authentication:{
-    user_uuid:string;
+    user_uuid:Buffer;
     user_name:string;
     user_email:string;
     user_plugins:string
@@ -70,7 +71,7 @@ export const ContextBuilder: (data:{ event: AliyunAPIGatewayEvent, context: Aliy
   let authentication = null;
   if(event.headers["X-UserUUID"]){
     authentication ={
-      user_uuid:event.headers["X-UserUUID"],
+      user_uuid:Buffer.from(parse(event.headers["X-UserUUID"]) as Uint8Array),
       user_name:event.headers["X-UserName"],
       user_email:event.headers["X-UserEmail"],
       user_plugins:event.headers["X-UserPlugins"]

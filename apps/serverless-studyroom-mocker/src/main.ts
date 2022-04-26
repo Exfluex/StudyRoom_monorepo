@@ -5,7 +5,7 @@
 require('dotenv').config()
 import * as express from 'express';
 import { authorized } from './routes/authorized';
-import { anonymous } from './routes/anomynouse';
+import anonymous from './routes/anomynouse';
 
 const app = express();
 app.use(express.json());

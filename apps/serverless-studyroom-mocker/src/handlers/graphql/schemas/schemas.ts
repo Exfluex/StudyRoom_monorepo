@@ -4,7 +4,11 @@ type Query {
   me: User
   listRooms(offset: Int! = 0,pageSize: Int! = 5): [Room!]!
 }
-
+type Mutation{
+  # createAccount(user_name: String!,email: String!,password: String!):User
+  createRoom(room_name: String!,room_description: String,room_password: String):Room
+  joinRoom(room_uuid:String!,room_password:String):Room
+}
 type RoomCategory{
   id: Int!
   name: String!
@@ -28,6 +32,7 @@ type Room{
   room_uuid: String!
   room_name: String!
   room_owner: User!
+  room_count: Int!
   room_create_date: String!
   room_latest_action_date: String!
   room_status: Int!
@@ -37,6 +42,7 @@ type Room{
 type User{
   user_uuid: String!
   user_name: String!
+  user_uname: String!
   user_create_date: String!
   user_latest_login_date: String!
   user_plugins: [Int!]!
