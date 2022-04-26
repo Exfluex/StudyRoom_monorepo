@@ -15,7 +15,7 @@ export async function Login_API(data: { email: string; password: string }): Prom
   });
   if(res.status === 200){
     const json = await res.json();
-    setCookie("token",json.data.token)
+    setCookie("token",json.token)
     return {
       message:"LoggedIn",
       status:"success",

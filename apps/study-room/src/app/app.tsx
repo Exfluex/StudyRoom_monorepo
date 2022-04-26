@@ -1,6 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { ApolloProvider } from '@apollo/client';
 import { Box, ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { GraphQLClient } from './apis/graphql_client';
 import styles from './app.module.scss';
 import { ManipulateLayout } from './components/layout/manipulate_layer';
 import NxWelcome from './nx-welcome';
@@ -12,6 +14,7 @@ import { ApplicationRoutes } from './routes/app_routes';
 export function App() {
   return (
     <>
+    <ApolloProvider client={GraphQLClient}>
       <BrowserRouter>
         <ChakraProvider>
           <Box pos={'fixed'} w={'100%'} h={'100%'} bg={'#f8edeb'}>
@@ -19,6 +22,7 @@ export function App() {
           </Box>
         </ChakraProvider>
       </BrowserRouter>
+      </ApolloProvider>
     </>
   );
 }
